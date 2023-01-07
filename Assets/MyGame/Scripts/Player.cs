@@ -8,16 +8,16 @@ public class Player : MonoBehaviour
     private bool holdingPickup;
 
     [SerializeField]
-    CarGameManager game;
+    private CarGameManager game;
 
     [SerializeField]
-    Sprite baseSprite;
+    private Sprite baseSprite;
 
     [SerializeField]
-    Sprite holdingSprite;
+    private Sprite holdingSprite;
 
     [SerializeField]
-    float velocity;
+    private float velocity;
 
     private void Start()
     {
