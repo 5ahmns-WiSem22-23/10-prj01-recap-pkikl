@@ -3,9 +3,18 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     private Rigidbody2D rigid;
+    private SpriteRenderer spriteRen;
+
+    private bool holdingPickup;
 
     [SerializeField]
     CarGameManager game;
+
+    [SerializeField]
+    Sprite baseSprite;
+
+    [SerializeField]
+    Sprite holdingSprite;
 
     [SerializeField]
     float velocity;
@@ -13,6 +22,9 @@ public class Player : MonoBehaviour
     private void Start()
     {
         rigid = GetComponent<Rigidbody2D>();
+        spriteRen = GetComponent<SpriteRenderer>();
+
+        spriteRen.sprite = baseSprite;
     }
     
     private void FixedUpdate()
@@ -27,13 +39,18 @@ public class Player : MonoBehaviour
         //Wenn das Objekt aufgesammelt wird, wird das Objekt zerstört und ein neues erstellt
         if(collision.CompareTag("Pickup"))
         {
-            game.SpawnObject();
+            spriteRen.sprite = holdingSprite;
             Destroy(collision.gameObject);
+            holdingPickup = true;
         }
 
-        else if (collision.CompareTag("Goal"))
+        else if (collision.CompareTag("Goal") && holdingPickup)
         {
-
+            //Wenn man ein Objekt mit dem Goal Tag aufsammelt wird das Sprite des Players geändert und der Countwert wird erhöht
+            spriteRen.sprite = baseSprite;
+            game.SpawnObject();
+            CarGameManager.objectCount++;
+            holdingPickup = false;
         }
     }
 }
